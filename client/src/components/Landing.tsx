@@ -1,6 +1,6 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { NavLink } from 'react-router-dom'
-import LightbulbIcon from '@mui/icons-material/Lightbulb'
+import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined'
 
 function Landing() {
   return (
@@ -23,7 +23,7 @@ function Landing() {
               </NavLink>
 
               <button className="bg-violet-500 text-white  p-3 rounded-md">
-                Learn More <LightbulbIcon />
+                Learn More <LightbulbOutlinedIcon />
               </button>
             </div>
           </div>
