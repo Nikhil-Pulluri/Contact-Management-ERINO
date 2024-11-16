@@ -30,12 +30,13 @@ export default function ContactActions({ contact, onEdit, onDelete }: ContactAct
 
   const handleEditSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
     onEdit(editedContact)
     setExpanded(false)
   }
 
   const handleDeleteConfirm = () => {
-    onDelete(contact.email) // Assuming email is a unique identifier for deletion
+    onDelete(contact._id)
     setDeleteDialogOpen(false)
   }
 

@@ -40,12 +40,51 @@ interface ContactsResponse {
   msg: string
 }
 
-const handleEdit = () => {
-  console.log('edit option called')
+const handleEdit = async (updatedContact: Contact) => {
+  try {
+    const response = await fetch(`http://localhost:4000/contacts/${updatedContact._id}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedContact),
+    })
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`)
+    }
+
+    const data: ContactsResponse = await response.json()
+
+    console.log(data)
+  } catch (error) {
+    console.error('Error updating contact:', error)
+    return []
+  }
 }
 
-const handleDelete = () => {
-  console.log('delete function called')
+const handleDelete = async (deleteId: string) => {
+  try {
+    const response = await fetch(`http://localhost:4000/contacts/${deleteId}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`)
+    }
+
+    const data: ContactsResponse = await response.json()
+
+    console.log(data)
+  } catch (error) {
+    console.error('Error updating contact:', error)
+    return []
+  }
 }
 
 function Row(props: { row: Contact }) {
@@ -96,7 +135,7 @@ const fetchContacts = async (): Promise<Contact[]> => {
     }
 
     const data: ContactsResponse = await response.json()
-    return data.contacts // Assuming contacts is an array of Contact objects
+    return data.contacts
   } catch (error) {
     console.error('Error retrieving contacts:', error)
     return []

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Save } from 'lucide-react'
 
 interface Contact {
-  id: string
+  _id: string
   fname: string
   lname: string
   email: string
@@ -13,7 +13,7 @@ interface Contact {
 }
 export default function Add() {
   const [newContact, setNewContact] = useState<Contact>({
-    id: '',
+    _id: '',
     fname: '',
     lname: '',
     email: '',
