@@ -3,13 +3,14 @@ import { Box, Button, Card, CardContent, Collapse, TextField, Typography, Stack,
 import { Edit, Trash2, ChevronDown, ChevronUp } from 'lucide-react'
 
 interface Contact {
-  id: string
-  fname: string
-  lname: string
+  _id: string
+  firstname: string
+  lastname: string
   email: string
-  phnum: number
+  phone: string
   company: string
-  job_title: string
+  jobtitle: string
+  __v: number
 }
 
 interface ContactActionsProps {
@@ -43,7 +44,7 @@ export default function ContactActions({ contact, onEdit, onDelete }: ContactAct
       <CardContent>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <Typography variant="h6" component="div">
-            {contact.fname} {contact.lname}
+            {contact.firstname} {contact.lastname}
           </Typography>
           <Stack direction="row" spacing={1}>
             <Button variant="outlined" color="primary" startIcon={expanded ? <ChevronUp /> : <ChevronDown />} onClick={handleExpandClick}>
@@ -58,12 +59,16 @@ export default function ContactActions({ contact, onEdit, onDelete }: ContactAct
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <Box component="form" onSubmit={handleEditSubmit} sx={{ mt: 2 }}>
             <Stack spacing={2}>
-              <TextField label="First Name" fullWidth value={editedContact.fname} onChange={(e) => setEditedContact({ ...editedContact, fname: e.target.value })} />
-              <TextField label="Last Name" fullWidth value={editedContact.lname} onChange={(e) => setEditedContact({ ...editedContact, lname: e.target.value })} />
+              <div className="flex space-x-3">
+                <TextField label="First Name" fullWidth value={editedContact.firstname} onChange={(e) => setEditedContact({ ...editedContact, firstname: e.target.value })} />
+                <TextField label="Last Name" fullWidth value={editedContact.lastname} onChange={(e) => setEditedContact({ ...editedContact, lastname: e.target.value })} />
+              </div>
               <TextField label="Email" type="email" fullWidth value={editedContact.email} onChange={(e) => setEditedContact({ ...editedContact, email: e.target.value })} />
-              <TextField label="Phone Number" fullWidth value={editedContact.phnum} onChange={(e) => setEditedContact({ ...editedContact, phnum: +e.target.value })} />
-              <TextField label="Company" fullWidth value={editedContact.company} onChange={(e) => setEditedContact({ ...editedContact, company: e.target.value })} />
-              <TextField label="Job Title" fullWidth value={editedContact.job_title} onChange={(e) => setEditedContact({ ...editedContact, job_title: e.target.value })} />
+              <div className="flex space-x-3">
+                <TextField label="Phone Number" fullWidth value={editedContact.phone} onChange={(e) => setEditedContact({ ...editedContact, phone: e.target.value })} />
+                <TextField label="Company" fullWidth value={editedContact.company} onChange={(e) => setEditedContact({ ...editedContact, company: e.target.value })} />
+              </div>
+              <TextField label="Job Title" fullWidth value={editedContact.jobtitle} onChange={(e) => setEditedContact({ ...editedContact, jobtitle: e.target.value })} />
               <Button type="submit" variant="contained" color="primary" startIcon={<Edit />}>
                 Save Changes
               </Button>
@@ -76,7 +81,7 @@ export default function ContactActions({ contact, onEdit, onDelete }: ContactAct
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
           <Typography>
-            Are you sure you want to delete {contact.fname} {contact.lname}? This action cannot be undone.
+            Are you sure you want to delete {contact.firstname} {contact.lastname}? This action cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions>

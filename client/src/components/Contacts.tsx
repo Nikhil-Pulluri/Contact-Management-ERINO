@@ -10,10 +10,35 @@ import Paper from '@mui/material/Paper'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import ContactActions from './ContactOptions'
-import { v4 as uuidv4 } from 'uuid'
 import Collapse from '@mui/material/Collapse'
 import { Box } from '@mui/material'
 import TablePagination from '@mui/material/TablePagination'
+
+interface Contact {
+  _id: string
+  firstname: string
+  lastname: string
+  email: string
+  phone: string
+  company: string
+  jobtitle: string
+  __v: number
+}
+
+interface ContactsResponse {
+  success: boolean
+  contacts: Array<{
+    _id: string
+    firstname: string
+    lastname: string
+    email: string
+    phone: string
+    company: string
+    jobtitle: string
+    __v: number
+  }>
+  msg: string
+}
 
 const handleEdit = () => {
   console.log('edit option called')
@@ -23,12 +48,7 @@ const handleDelete = () => {
   console.log('delete function called')
 }
 
-function createData(fname: string, lname: string, email: string, phnum: number, company: string, job_title: string) {
-  const id = uuidv4()
-  return { id, fname, lname, email, phnum, company, job_title }
-}
-
-function Row(props: { row: ReturnType<typeof createData> }) {
+function Row(props: { row: Contact }) {
   const { row } = props
   const [open, setOpen] = React.useState(false)
 
@@ -41,16 +61,16 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.fname}
+          {row.firstname}
         </TableCell>
-        <TableCell>{row.lname}</TableCell>
+        <TableCell>{row.lastname}</TableCell>
         <TableCell>{row.email}</TableCell>
-        <TableCell>{row.phnum}</TableCell>
+        <TableCell>{row.phone}</TableCell>
         <TableCell>{row.company}</TableCell>
-        <TableCell>{row.job_title}</TableCell>
+        <TableCell>{row.jobtitle}</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <ContactActions contact={row} onEdit={handleEdit} onDelete={handleDelete} />
@@ -62,15 +82,43 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   )
 }
 
-const rows = Array.from({ length: 30 }, (_, index) => createData(`First${index}`, `Last${index}`, `email${index}@example.com`, 1234567890 + index, `Company${index}`, `Job Title ${index}`))
+const fetchContacts = async (): Promise<Contact[]> => {
+  try {
+    const response = await fetch('http://localhost:4000/contacts', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`)
+    }
+
+    const data: ContactsResponse = await response.json()
+    return data.contacts // Assuming contacts is an array of Contact objects
+  } catch (error) {
+    console.error('Error retrieving contacts:', error)
+    return []
+  }
+}
 
 export default function Contacts() {
+  const [rows, setRows] = React.useState<Contact[]>([])
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
 
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchContacts()
+      setRows(data)
+    }
+    fetchData()
+  }, [])
+
   const handleChangePage = (event: unknown, newPage: number) => {
-    console.log(event)
     setPage(newPage)
+    console.log(event)
   }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +157,7 @@ export default function Contacts() {
           </TableHead>
           <TableBody>
             {paginatedRows.map((row) => (
-              <Row key={row.id} row={row} />
+              <Row key={row._id} row={row} />
             ))}
           </TableBody>
         </Table>
@@ -120,139 +168,9 @@ export default function Contacts() {
         count={rows.length}
         rowsPerPage={rowsPerPage}
         page={page}
-        onPageChange={(event, newPage) => handleChangePage(event, newPage)}
+        onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
   )
 }
-
-// debri
-
-// import * as React from 'react'
-// import IconButton from '@mui/material/IconButton'
-// import Table from '@mui/material/Table'
-// import TableBody from '@mui/material/TableBody'
-// import TableCell from '@mui/material/TableCell'
-// import TableContainer from '@mui/material/TableContainer'
-// import TableHead from '@mui/material/TableHead'
-// import TableRow from '@mui/material/TableRow'
-// import Paper from '@mui/material/Paper'
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-// import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-// import ContactActions from './ContactOptions'
-// import { v4 as uuidv4 } from 'uuid'
-// import Collapse from '@mui/material/Collapse'
-// import { Box } from '@mui/material'
-
-// const handleEdit = () => {
-//   console.log('edit option called')
-// }
-
-// const handleDelete = () => {
-//   console.log('delete function called')
-// }
-
-// function createData(fname: string, lname: string, email: string, phnum: number, company: string, job_title: string) {
-//   const generateId = (): string => {
-//     return uuidv4() // Generates a UUID
-//   }
-
-//   const id = generateId() // bring it form the mongo db after creating the contact
-
-//   return {
-//     id,
-//     fname,
-//     lname,
-//     email,
-//     phnum,
-//     company,
-//     job_title,
-//     edit: [
-//       {
-//         option: 'Edit',
-//         path: '/login/contacts/edit',
-//         icon: '',
-//       },
-//       {
-//         option: 'Delete',
-//         path: '/login/contacts/delete',
-//         icon: '',
-//       },
-//     ],
-//   }
-// }
-
-// function Row(props: { row: ReturnType<typeof createData> }) {
-//   const { row } = props
-//   const [open, setOpen] = React.useState(false)
-
-//   return (
-//     <React.Fragment>
-//       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-//         <TableCell>
-//           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-//             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-//           </IconButton>
-//         </TableCell>
-//         <TableCell component="th" scope="row">
-//           {row.fname}
-//         </TableCell>
-//         <TableCell>{row.lname}</TableCell>
-//         <TableCell>{row.email}</TableCell>
-//         <TableCell>{row.phnum}</TableCell>
-//         <TableCell>{row.company}</TableCell>
-//         <TableCell>{row.job_title}</TableCell>
-//       </TableRow>
-//       {/* i have to replace this portion with the edit options of the contact */}
-
-//       <TableRow>
-//         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-//           <Collapse in={open} timeout="auto" unmountOnExit>
-//             <Box sx={{ margin: 1 }}>
-//               <ContactActions contact={row} onEdit={handleEdit} onDelete={handleDelete} />
-//             </Box>
-//           </Collapse>
-//         </TableCell>
-//       </TableRow>
-//     </React.Fragment>
-//   )
-// }
-
-// // this is where we have to give the rows of the table
-// const rows = [
-//   createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
-//   createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
-//   createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
-//   createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
-//   createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
-//   createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
-//   createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
-//   createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
-//   createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
-//   createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
-// ]
-// export default function Contacts() {
-//   return (
-//     <TableContainer component={Paper}>
-//       <Table aria-label="collapsible table">
-//         <TableHead>
-//           <TableRow>
-//             <TableCell />
-//             <TableCell>First Name</TableCell>
-//             <TableCell>Last Name</TableCell>
-//             <TableCell>Email</TableCell>
-//             <TableCell>Phone Number</TableCell>
-//             <TableCell>Company</TableCell>
-//             <TableCell>Job Title</TableCell>
-//           </TableRow>
-//         </TableHead>
-//         <TableBody>
-//           {rows.map((row) => (
-//             <Row key={row.phnum} row={row} />
-//           ))}
-//         </TableBody>
-//       </Table>
-//     </TableContainer>
-//   )
-// }

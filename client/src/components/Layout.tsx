@@ -12,7 +12,7 @@ function Layout() {
             <div className="col-span-1 row-span-5 h-[75vh] bg-white border border-violet-200 shadow-md rounded-md p-2">
               <Sidebar />
             </div>
-            <div className="col-span-5 row-span-5 h-[75vh] bg-white shadow-md border border-violet-200 rounded-md p-2 overflow-auto">
+            <div className="col-span-5 row-span-5 h-[75vh] bg-white shadow-md border border-violet-200 rounded-md p-4 overflow-auto">
               <Outlet />
             </div>
           </div>
