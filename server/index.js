@@ -41,26 +41,59 @@ const  Contacts = mongoose.model("contacts",{
 mongoose.connect("mongodb+srv://nikhilpulluri7810:1234@nikhilpulluri.g6f9o.mongodb.net/contact_management_system?retryWrites=true&w=majority&appName=NikhilPulluri")
 
 
-app.post("/addcontact",async (req,res)=>{
-    let check = await Contacts.findOne({email:req.body.email});
-    if(check)
-    {
-        return res.status(400).json({success:false,error:"Existing User Found with same email address"})
-    }
-   const contact = new Contacts({
-      firstname:req.body.fname,
-      lastname:req.body.lname,
-      email:req.body.email,
-      phone:req.body.phnum,
-      company:req.body.company,
-      jobtitle:req.body.job_title,
-   })
-   await contact.save();
-   res.json({success:true, msg:"added succesfully", id: contact._id });
-})
+// app.post("/addcontact",async (req,res)=>{
+//     let check = await Contacts.findOne({email:req.body.email});
+//     if(check)
+//     {
+//         return res.status(400).json({success:false,error:"Existing User Found with same email address"})
+//     }
+//    const contact = new Contacts({
+//       firstname:req.body.firstname,
+//       lastname:req.body.lastname,
+//       email:req.body.email,
+//       phone:req.body.phone,
+//       company:req.body.company,
+//       jobtitle:req.body.jobtitle,
+//    })
+//    await contact.save();
+//    res.json({success:true, msg:"added succesfully", id: contact._id });
+// })
+
+
+
+app.post("/addcontact", async (req, res) => {
+  const { firstname, lastname, email, phone, company, jobtitle } = req.body;
+
+  // Check if all required fields are present
+  if (!firstname || !lastname || !email || !phone || !jobtitle) {
+    return res.status(400).json({ success: false, error: "All fields are required" });
+  }
+
+  // Check for existing user with the same email
+  let check = await Contacts.findOne({ email: req.body.email });
+  if (check) {
+    return res.status(400).json({ success: false, error: "Existing User Found with same email address" });
+  }
+
+  // Create a new contact if validation passes
+  const contact = new Contacts({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    email: req.body.email,
+    phone: req.body.phone,
+    company: req.body.company,
+    jobtitle: req.body.jobtitle,
+  });
+
+  // Save the contact
+  await contact.save();
+  
+  res.json({ success: true, msg: "Added successfully", id: contact._id });
+});
+
 app.get("/contacts",async (req,res)=>{
     const contacts = await Contacts.find({});
-    console.log(contacts);
+    // console.log(contacts);
     res.json({success:true,contacts,msg:"Retrieved Succesfully"});
 })
 
@@ -68,12 +101,16 @@ app.get("/contacts",async (req,res)=>{
 app.put("/contacts/:id", async (req, res) => {
     try {
         const { id } = req.params; 
-        const firstname = req.body.fname;
-        const lastname = req.body.lname;
-        const email = req.body.email;
-        const phone = req.body.phnum;
-        const company = req.body.company;
-        const jobtitle=req.body.job_title;
+
+
+        const firstname = req.body.firstname
+        const lastname = req.body.lastname
+        const email = req.body.email
+        const phone = req.body.phone
+        const company = req.body.company
+        const jobtitle = req.body.jobtitle
+
+
         const updatedContact = await Contacts.findOneAndUpdate(
             { _id: id },
             { 
