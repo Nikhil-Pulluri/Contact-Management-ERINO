@@ -150,9 +150,17 @@ export default function Contacts() {
   React.useEffect(() => {
     const fetchData = async () => {
       const data = await fetchContacts()
+      data.sort((a, b) => {
+        return a.firstname.localeCompare(b.firstname)
+      })
       setRows(data)
     }
+
     fetchData()
+
+    const intervalId = setInterval(fetchData, 1000)
+
+    return () => clearInterval(intervalId)
   }, [])
 
   const handleChangePage = (event: unknown, newPage: number) => {

@@ -16,7 +16,7 @@ function Landing() {
             </div>
 
             <div className="flex gap-4 justify-center pt-4">
-              <NavLink to="/login">
+              <NavLink to="/login/dashboard">
                 <button className="bg-violet-500 text-white  p-3 rounded-md">
                   Get Started <ChevronRightIcon />
                 </button>

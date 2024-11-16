@@ -4,22 +4,22 @@ import { Save } from 'lucide-react'
 
 interface Contact {
   _id: string
-  fname: string
-  lname: string
+  firstname: string
+  lastname: string
   email: string
-  phnum: string
+  phone: string
   company: string
-  job_title: string
+  jobtitle: string
 }
 export default function Add() {
   const [newContact, setNewContact] = useState<Contact>({
     _id: '',
-    fname: '',
-    lname: '',
+    firstname: '',
+    lastname: '',
     email: '',
-    phnum: '',
+    phone: '',
     company: '',
-    job_title: '',
+    jobtitle: '',
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,15 +55,15 @@ export default function Add() {
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
             <Stack spacing={2}>
               <div className="flex space-x-3">
-                <TextField label="First Name" fullWidth value={newContact.fname} onChange={(e) => setNewContact({ ...newContact, fname: e.target.value })} />
-                <TextField label="Last Name" fullWidth value={newContact.lname} onChange={(e) => setNewContact({ ...newContact, lname: e.target.value })} />
+                <TextField label="First Name" fullWidth value={newContact.firstname} onChange={(e) => setNewContact({ ...newContact, firstname: e.target.value })} />
+                <TextField label="Last Name" fullWidth value={newContact.lastname} onChange={(e) => setNewContact({ ...newContact, lastname: e.target.value })} />
               </div>
               <TextField label="Email" type="email" fullWidth value={newContact.email} onChange={(e) => setNewContact({ ...newContact, email: e.target.value })} />
               <div className="flex space-x-3">
-                <TextField label="Phone Number" fullWidth value={newContact.phnum} onChange={(e) => setNewContact({ ...newContact, phnum: e.target.value })} />
+                <TextField label="Phone Number" fullWidth value={newContact.phone} onChange={(e) => setNewContact({ ...newContact, phone: e.target.value })} />
                 <TextField label="Company" fullWidth value={newContact.company} onChange={(e) => setNewContact({ ...newContact, company: e.target.value })} />
               </div>
-              <TextField label="Job Title" fullWidth value={newContact.job_title} onChange={(e) => setNewContact({ ...newContact, job_title: e.target.value })} />
+              <TextField label="Job Title" fullWidth value={newContact.jobtitle} onChange={(e) => setNewContact({ ...newContact, jobtitle: e.target.value })} />
               <Button type="submit" variant="contained" color="primary" startIcon={<Save />}>
                 Save Contact
               </Button>
