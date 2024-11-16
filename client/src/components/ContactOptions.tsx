@@ -3,6 +3,7 @@ import { Box, Button, Card, CardContent, Collapse, TextField, Typography, Stack,
 import { Edit, Trash2, ChevronDown, ChevronUp } from 'lucide-react'
 
 interface Contact {
+  id: string
   fname: string
   lname: string
   email: string

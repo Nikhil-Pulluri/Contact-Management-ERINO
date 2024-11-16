@@ -89,7 +89,18 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 }
 
 // this is where we have to give the rows of the table
-const rows = [createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'), createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE')]
+const rows = [
+  createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
+  createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
+  createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
+  createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
+  createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
+  createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
+  createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
+  createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
+  createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
+  createData('Nikhil', 'Pulluri', 'testing@gmail.com', 8317533755, 'google', 'SDE'),
+]
 export default function Contacts() {
   return (
     <TableContainer component={Paper}>
