@@ -7,15 +7,9 @@ export default function Dashboard() {
         <div className="col-span-2 row-span-2">
           <StatsCard title="Total Contacts" value={20} icon={<ChevronRight />} />
         </div>
-        <div className="col-span-2 row-span-2 col-start-3">
-          <StatsCard title="Total Contacts" value={20} icon={<ChevronRight />} />
-        </div>
-        <div className="col-span-2 row-span-2 row-start-3">
-          <StatsCard title="Total Contacts" value={20} icon={<ChevronRight />} />
-        </div>
-        <div className="col-span-2 row-span-2 col-start-3 row-start-3">
-          <StatsCard title="Total Contacts" value={20} icon={<ChevronRight />} />
-        </div>
+        <div className="col-span-2 row-span-2 col-start-3">{/* <StatsCard title="Total Contacts" value={20} icon={<ChevronRight />} /> */}</div>
+        <div className="col-span-2 row-span-2 row-start-3">{/* <StatsCard title="Total Contacts" value={20} icon={<ChevronRight />} /> */}</div>
+        <div className="col-span-2 row-span-2 col-start-3 row-start-3">{/* <StatsCard title="Total Contacts" value={20} icon={<ChevronRight />} /> */}</div>
       </div>
     </div>
   )

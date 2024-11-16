@@ -176,48 +176,51 @@ export default function Contacts() {
   const paginatedRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 
   return (
-    <Paper>
-      <TableContainer>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>
-                <span className="font-bold">First Name</span>
-              </TableCell>
-              <TableCell>
-                <span className="font-bold">Last Name</span>
-              </TableCell>
-              <TableCell>
-                <span className="font-bold">Email</span>
-              </TableCell>
-              <TableCell>
-                <span className="font-bold">Phone Number</span>
-              </TableCell>
-              <TableCell>
-                <span className="font-bold">Company</span>
-              </TableCell>
-              <TableCell>
-                <span className="font-bold">Job Title</span>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedRows.map((row) => (
-              <Row key={row._id} row={row} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 15]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+    <div className="space-y-8">
+      <div className="text-3xl font-bold">Contacts</div>
+      <Paper>
+        <TableContainer>
+          <Table aria-label="collapsible table">
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell>
+                  <span className="font-bold">First Name</span>
+                </TableCell>
+                <TableCell>
+                  <span className="font-bold">Last Name</span>
+                </TableCell>
+                <TableCell>
+                  <span className="font-bold">Email</span>
+                </TableCell>
+                <TableCell>
+                  <span className="font-bold">Phone Number</span>
+                </TableCell>
+                <TableCell>
+                  <span className="font-bold">Company</span>
+                </TableCell>
+                <TableCell>
+                  <span className="font-bold">Job Title</span>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {paginatedRows.map((row) => (
+                <Row key={row._id} row={row} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 15]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </div>
   )
 }
